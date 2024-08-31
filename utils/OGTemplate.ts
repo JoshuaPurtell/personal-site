@@ -182,7 +182,7 @@ const FooterComponent = (date: Date, dateFontSize: string, footerFontSize: strin
             {
                 type: 'div',
                 props: {
-                    children: "hitorilabs",
+                    children: "prolegomena",
                 },
             },
         ],

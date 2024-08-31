@@ -1,10 +1,10 @@
-
 import { getCollection } from "astro:content";
 import type { APIRoute, GetStaticPaths } from "astro";
 import satori, { type SatoriOptions } from "satori";
 import sharp from "sharp";
 import { readFile } from "node:fs/promises";
 import { OGTemplate } from "@utils/OGTemplate";
+import path from "path"; // Added import for path
 
 interface OGData {
     title: string;
@@ -20,10 +20,15 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const GET: APIRoute<OGData> = async ({ props }) => {
-    const fontURL = new URL("../fonts/JetBrainsMono-Bold.ttf", import.meta.url);
-    const imageURL = new URL(`../${props.image}`, import.meta.url);
-    console.log(props.image)
-    const image = (await readFile(imageURL)).toString("base64");
+    const fontPath = path.join(process.cwd(), 'dist', 'fonts', 'JetBrainsMono-Bold.ttf');
+    
+    const imagePath = path.join(process.cwd(), 'dist', '_astro', path.basename(props.image));
+    console.log('Image path:', imagePath);
+    console.log('Font path:', fontPath);
+    
+    const imageBuffer = await readFile(imagePath);
+    const image = imageBuffer.toString('base64');
+
     const options: SatoriOptions = {
         width: 1200,
         height: 630,
@@ -31,7 +36,7 @@ export const GET: APIRoute<OGData> = async ({ props }) => {
         fonts: [
             {
                 name: "JetBrainsMono-Bold",
-                data: await readFile(fontURL),
+                data: await readFile(fontPath),
                 weight: 900,
                 style: "normal",
             },

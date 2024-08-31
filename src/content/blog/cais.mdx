@@ -1,0 +1,40 @@
+---
+title: Compound AI Systems
+seo_title: "Compound AI Systems"
+description: |
+    ... are here to stay.
+author: "prolegomena"
+featuredImage: ../../assets/featured-images/inspiration.png
+tags: ["Compound AI Systems","DSPy"]
+publishDate: "2024-08-17"
+draft: false
+---
+
+
+### Language Modeling - Necessary, Not Sufficient
+
+Language models can do a lot - but maybe not everything, maybe not tomorrow. For instance, I'm not sure how many OOMs of model depth we'd need to make a transformer competitive with even a medium-sized [VIN](https://arxiv.org/pdf/2406.08404) at deep reasoning tasks, but I suspect it's more than the OOMs OAI will deliver in November ([1.3](https://x.com/YouJiacheng/status/1827806086944203220), to be precise) and likely more than we can power with the West's current solar/wind/gas energy stack. Problems like credit assignment and reward modeling are difficult to make tractable in sequence modeling (do you do RL at the token or utterance scale, or both?) - but easy for RL models. More practically, most important ML problems are only solvable with a panoply of engineering tweaks/hacks (the delta between [DreamerV2](https://arxiv.org/abs/2010.02193) and [DreamerV3](https://arxiv.org/abs/2301.04104) comes to mind), and those hacks take time to ground for a given architecture. I'm skeptical that language modeling will win it all after e.g OAI bets the farm on a 40T model.
+
+I'm skeptical, but not a skeptic. I might even be an LM maximalist. I think transformers are *the* way to represent, access, and work with humanity's collective crystalized knowledge. *Any* system that benefits from human knowledge or derivatives thereof (e.g. program synthesis), then, will need/want to work with them. Learning a world model entirely from scratch in an SSM is fine for Crafter, less fine even for video games like [Red](https://github.com/PWhiddy/PokemonRedExperiments/tree/master). Do you really want your e.g. household humanoid or killer drone to be completely ignorant of human knowledge? If you do, will governments permit it? If the answer is no - it's no - you will integrate a full attention-based language model into your system.
+
+Most AI systems that provide real-world value will use a language model. Most will use non-language components. These components will need to share information, and beyond the v0 stage, they'll need to learn to do so from data.
+
+### Learning Makes Compound AI Systems Work
+
+Learning what information to use - to [ignore irrelevant variation](https://worldmodels.github.io) - is a common, hard, and important problem. In a [compound AI system](https://bair.berkeley.edu/blog/2024/02/18/compound-ai-systems/) (CAIS), it's not just one problem, but many - each edge between components needs to solve it, since information doesn't flow in high-entropy residual streams but rather via text or embeddings that can be interpreted without the aid of gradients. These channels are sparse, and usually the main bottleneck constraining CAIS topologies. Learning what information to pipe through them, then, is very important. The best way I know to do this is by searching over discrete interventions.
+
+In multi-stage [prompt optimization](https://arxiv.org/abs/2406.11695), we do this by identifying failures, generating plausible interventions using explicit reasoning together with a simplified model of the dataset and downstream / upstream components, and searching over combinations of those interventions to find ones that work.
+
+That might seem ad hoc - why search? - but really it reflects a basic property of dynamical systems: unlike with [chaotic](https://en.wikipedia.org/wiki/Chaos_theory) systems, we can reason about how interventions will impact behavior locally, but unlike [Lipshitz](https://en.wikipedia.org/wiki/Lipschitz_continuity) systems, we can't bound global effects. Search over interventions with strong expected local impacts, then, is a good way to learn with CAISs, just as it's a good idea for chess and robotics navigation.
+
+Even with homogenous language-model systems, doing this search is still early days. Doing science to develop better ideas to underpin this search is valuable.
+
+### What Learning CAISs Can Do For Us
+
+From the last two years of demos, most of us are familiar with the **Hello World!** of CAISs - RAG. But many of us are also familiar with PlanAct, Mixture-of-Agents, LM Ensembles, and other system topologies for scaling compute used to solve a given problem across multiple inference steps. While the acronyms can be hard to keep track of, scaling compute by adding nodes to the control flow graph of one's LM CAIS works - and therefore, so do the acronyms.
+
+Most of these recipes require the user to specify the topologies and instructions ahead of time. With DSPy, we can do a pretty good job at learning instructions from data; learning apt topologies from data, on the other hand, will be unblocked by better science to structure search. Once it is, signatures and starting instructions will look a lot more like seeds and metrics like constraints in a much more general optimization process. Learning the best K-call topology, then, won't be a matter of trading off human time for test time compute, but (a bit more) train time compute for (a ton of) test time compute. Given the interest in scaling test-time compute, methods for learning efficient topologies - as opposed to the trivial baselines popular today - will see wide use.
+
+Learning from data won't just help us replace human effort with compute. It's pretty straightforward, if onerous, to reason about homogenous language model systems. It's not *that* hard to reason about retrieval model / language model mixes - although maybe it's hard to do so effectively. Reasoning about e.g. language model / reinforcement learning or language model / causal model mixes is quite possibly a much, much harder problem. We'll almost certainly need strong automated search to do so. Despite this hurdle, strong implementations for these mixes will go a long way toward unlocking many of the real-world AI use cases people care about. It'll be hard, and worth it. 
+
+Long [DSPy](https://github.com/stanfordnlp/dspy). Let's learn how to learn CAISs. 

@@ -1,0 +1,37 @@
+---
+title: Sharing the Long Range Context Benchmark
+seo_title: "Long Range Context Benchmark"
+description: |
+    ... to assess language models' ability to reason about lots of information.
+author: "prolegomena"
+featuredImage: ../../assets/featured-images/inspiration.png
+tags: ["Research", "Belief Geometry"]
+publishDate: "2024-08-25"
+draft: false
+---
+
+### Motivation
+
+Most private LMs accept rather large (1e6-1e7) text inputs. But the dirty secret for anyone doing anything hard with them is that they can only really use ~2k tokens well, and 10k tokens *at all*. 
+
+[Needle-in-a-haystack](https://github.com/gkamradt/LLMTest_NeedleInAHaystack) tests are really useful, but they don't tend to differentiate between "the LM can reliably retrieve information over this much context" and "the LM can reliably reason over this much context." Spoiler: the rumors are true, those two numbers tend to be very, very different for any given LM.
+
+### What is Representational Capacity
+
+Why might this be the case? Well, some researchers have found rather convincing [evidence](https://www.lesswrong.com/posts/gTZ2SxesbHckJ3CkF/transformers-represent-belief-state-geometry-in-their) that LMs represent and store *at least some* beliefs via structures in their residual streams. Every model has limited representational capacity, and in particular the geometries necessary to represent even very simple belief structures appear to be quite complex; it's natural then, that given a (small) residual stream space, tokens requiring downstream processing (and hence derivative representations) could quite quickly *eat up* the transformer's capacity. This is all speculative, at the moment - I don't have the tools necessary to test my hypothesis, although I suspect that might change soon - in any case, even if the hypothesis ends up flopping, it motivated the construction of LRCBench.
+
+The basic question, then, LRCBench aims to answer is: if different LMs vary in their ability to represent and reason over dense context such as that found in mathematics, coding, and language reasoning problems, how can we evaluate this ability in a way that makes comparison and benchmarking simple? We attempt to do so by presenting the LM problems that involve reasoning over many units of information, and then increasing the number of units until it cracks. The maximum number of units at which the LM succeeds (my current, possibly flawed, definition of success is 50% accuracy when sampled at medium temperature, to avoid noise from prematurely stopping the process), then, tells us something about how much representational capacity a given LM has when reasoning with the kind of information present.
+
+### Benchmark Construction
+
+Why have three components in the benchmark, and not one? Well, if state capacity is impacted by pre- or post-training mix (it is), then it's possible that strong performance in coding (due to a good coding mix) may not transfer to other contexts (with inferior data mixes). Early results from Gemini Pro seem to confirm this hypothesis - it's very strong with natural language, but less so with code and math. 
+
+In further service of this line of reasoning, the math benchmark includes a simple but taxing task that most likely is poorly represented in most provider's post-training mixes (as of 2024-08-25, anyways). Somewhat shockingly, all LMs do exceptionally poorly on this somewhat-OOD task (even with demonstrations). If this were to change with a new model, I think (absent Anthropic or OpenAI seeing LRCBench) that that'd be uniquely strong and useful evidence that said model does a good job at reasoning in-context.
+
+### (Current) Results
+
+Anthropic's Sonnet (140/160/2 on coding/language/math) and Opus (200++/140/1) models dominate. Period. Given that most rumors suggest that Opus is similarly sized to (March 2023 GPT-4) and Sonnet much smaller, I was very surprised to see those models achieve over half of an OOM advantage over OpenAI's best offering (March 2023 GPT-4 - 40/40/2). Moreover, if Sonnet is substantially smaller than Opus (it is), these results also imply that Anthropic has found a way to maintain strong performance by trading off post-training compute/quality for model size, while OpenAI has not - GPT-4o (20/20/2) and GPT-4o-mini (10/10/2) each fit into neatly into a familiar size-matters scaling story. 
+
+Gemini models, on the other hand, are very good on language modeling, and rather weak on code and math. I don't have strong beliefs on what this means, but maybe you do. 
+
+Check the [repo](https://github.com/JoshuaPurtell/LRCBench) for hard results!

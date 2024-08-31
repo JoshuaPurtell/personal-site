@@ -4,7 +4,7 @@ import "@styles/main.css";
 import { z } from "astro:content";
 
 const {
-	title = "hitorilabs",
+	title = "prolegomena",
 	defaultContainerClasses = "container mx-auto max-w-screen-sm px-4 mt-4",
 } = Astro.props;
 
@@ -14,13 +14,13 @@ const socialLink = z.object({
 });
 
 const socials = [
-	{ id: "github", url: "https://github.com/hitorilabs" },
-	{ id: "twitter", url: "https://www.x.com/hitorilabs" },
-	{ id: "twitch", url: "https://www.twitch.tv/hitorilabs" },
+	{ id: "github", url: "https://github.com/joshuapurtell" },
+	{ id: "twitter", url: "https://www.x.com/joshpurtell" },
+	{ id: "website-inspiration", url: "https://hitorilabs.com"}
 ].map((o) => socialLink.parse(o));
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const siteName = "hitorilabs";
+const siteName = "prolegomena";
 ---
 
 <!doctype html>

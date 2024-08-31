@@ -26,5 +26,7 @@ canonical urls in case people use params
 build process needs to be:
 
 ```
-git fetch --unshallow && npm run build
+npm run build
+npx http-server dist
 ```
+

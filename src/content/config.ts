@@ -1,4 +1,4 @@
-import { z, defineCollection } from 'astro:content';
+import { defineCollection, z } from 'astro:content';
 
 const blogCollection = defineCollection({
     type: 'content',
@@ -7,7 +7,7 @@ const blogCollection = defineCollection({
         seo_title: z.string(),
         description: z.string(),
         tags: z.array(z.string()),
-        author: z.string().default('hitorilabs'),
+        author: z.string().default('prolegomena'),
         featuredImage: image().refine((img) => img.width >= 1080, {
             message: "Cover image must be at least 1080 pixels wide!",
         }),
@@ -18,8 +18,8 @@ const blogCollection = defineCollection({
 const organizationCollection = defineCollection({
     type: 'data',
     schema: ({ image }) => z.object({
-        id: z.string().default('hitorilabs'),
-        name: z.string().default('hitorilabs'),
+        id: z.string().default('prolegomena'),
+        name: z.string().default('prolegomena'),
         url: z.string().url(),
         logoImage: image().refine((img) => img.width >= 512, {
             message: "Logo image must be at least 512 pixels wide!",

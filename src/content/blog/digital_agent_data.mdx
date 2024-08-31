@@ -1,0 +1,35 @@
+---
+title: The Digital Agent Dataset Hasn't Been Created
+seo_title: "Digital Agent Dataset"
+description: |
+    ... and never will be.
+author: "prolegomena"
+featuredImage: ../../assets/featured-images/inspiration.png
+tags: ["Research", "Agent", "Compound AI Systems"]
+publishDate: "2024-08-09"
+draft: false
+---
+
+At an interview with SPC, Mark Zuckerberg observed the first part. Scraping 4chan is great for understanding how to reproduce human utterrances. It doesn't quite make long-horizon tasks in rich, responsive environments land 'in-distribution' for the language model, however. Reasoning about environment dynamics, planning, and reward modelling mostly absent from the webscale data AIs are trained on. These capabilities - grounded in digital and robotic control - are, for better or worse, more or less the only valuable applications for language modeling.
+
+So, creating this dataset and properly training models on it is the holy grail for the next few years of AI. We are already making progress: recently, the L3 team [shared](https://alphaxiv.org/abs/2407.21783v1?qid=66b23977eb65a9ed9bc2018f) some of the simpler approaches that work toward this end. 
+
+One of these is [STAR](https://proceedings.neurips.cc/paper_files/paper/2022/file/639a9a172c044fbb64175b5fad42e9a5-Paper-Conference.pdf), which for Meta comprises the following:
+    
+    1. **Generate Negative Examples**: Prompt the LM to complete coding tasks. Verify correctness with unit tests.
+
+    2. **Identify Failures**: Prompt the LM to assess the cause of failure given the test failure traces.
+
+    3. **Guide Generation to Paired Positive Examples**: Produce a prompt designed to guide the LM to avoid the failure mode, while not giving away the solution.
+
+    4. **Fine-tuning**: Generate correct solutions via this prompt, and fine-tune the LM on them.
+
+It's a simple approach - [ReST](https://arxiv.org/pdf/2308.08998) outlines the extension to RL - and teams with greater appetite for complexity can add variations. But the core idea is obviously very valuable: in order to compile a dataset of reasoning traces that will help the agent perform tasks, search for reasoning traces pivotal to success in tasks at the agent's ability frontier. 
+
+There are a few pitfalls with STAR, though, with promising if unproven candidate solutions:
+1. By design, the distribution of reasoning traces doesn't quite match the distribution of web data. Maybe this is not good if you're Meta or OpenAI and really want to scale training beyond the 'our web model is polished with some task data' to the 'this is a task model that incidentally uses some web data'. Zelikman's follow-up [QStar](https://x.com/casper_hansen_/status/1821521870232986049) appears to solve that issue, but also seems hard to pull off. Maybe [someone](https://x.com/casper_hansen_/status/1821521870232986049) will, though. Big if true.
+2. The algorithm needs affordances for situations where reliable reward signals are sparse - that is, most long-horizon tasks where success is mostly judged at the final step. Fortunately, there's a quite popular tool for providing such affordances - [Monte Carlo Tree Search](https://arxiv.org/html/2405.00451v2#bib.bib29).
+
+Anthropic or OpenAI solving one or even both of these problems would make foundation models much stronger at agent tasks. However, I'm not sure they alone can solve the problem - as perhaps they were able to with web pre-training. The fundamental issue is that, to perform well in a given environment, an agent needs not only to reason successfully in a common sense manner, but specifically to reason about planning and reward dynamics specific to their environment. While context windows will scale, so too will the complexity of the environments agents find themselves in - it's unclear that developers will be able to enumerate all environment dynamics sufficiently well that a common-sense reasoner can succeed at doing this planning and reward modelling purely in-context.
+
+A much more natural approach would be for large quantities of post-training data to be generated regularly by companies using [structured software](https://arxiv.org/abs/2405.15793) [gyms](https://openai.com/index/openai-gym-beta/) that closely resemble their production environments. As production use-cases add complexity, foundational models improve, and customers change usage patterns, in-distribution reasoning traces can follow along. There will never quite be an agent data [Pile](https://pile.eleuther.ai) - we'll recreate it a thousand times every day, across the application space.

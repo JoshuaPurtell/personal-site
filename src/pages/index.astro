@@ -7,14 +7,14 @@ let schema = {
 	"@context": "https://schema.org/",
 	"@type": "ImageObject",
 	contentUrl: socialImageURL,
-	creditText: "hitorilabs",
+	creditText: "prolegomena",
 	creator: {
 		"@type": "Organization",
-		name: "hitorilabs",
+		name: "prolegomena",
 	},
-	copyrightNotice: "hitorilabs",
+	copyrightNotice: "prolegomena",
 };
-const description = "Independent research group working on software for AI";
+const description = "Researcher working on task automation AI";
 
 import { getCollection } from "astro:content";
 
@@ -25,7 +25,7 @@ let formatDate = (date: Date): string => {
 const blogEntries = await getCollection("blog");
 ---
 
-<Layout title="hitorilabs">
+<Layout title="Prolegomena">
 	<Fragment slot="seo">
 		<script
 			type="application/ld+json"
@@ -34,38 +34,37 @@ const blogEntries = await getCollection("blog");
 		/>
 		<meta name="description" content={description} />
 		<meta property="twitter:url" content={Astro.url} />
-		<meta property="twitter:title" content="hitorilabs | home" />
+		<meta property="twitter:title" content="prolegomena | home" />
 		<meta property="twitter:card" content="summary" />
 		<meta property="og:image" content={socialImageURL} />
 	</Fragment>
 	<div class="container" slot="header">
 		<div class="font-mono flex gap-1 items-end mt-4 text-md">
-			<h1 class="font-black">hitorilabs</h1> |
-			<span> independent ml research </span>
+			<h1 class="font-black">Prolegomena</h1> |
+			<span> AI Systems Research </span>
 		</div>
 		<div class="font-mono mt-2">
 			<p class="font-mono">
-				Independent research group working on software for AI
+				Software for aiding the best and multiplying the will.
 			</p>
 		</div>
 	</div>
 
 	<main aria-role="main" class="container">
-		<h2 id="projects" class="font-bold mt-3 mb-1">purpose</h2>
+		<h2 id="projects" class="font-bold mt-3 mb-1">Purpose</h2>
 		<hr class="header" />
 		<div>
-			<p>Work in public. No ads. No trackers. No sales funnel.</p>
+			<p>Low slop. Words intended to communicate, not to confuse.</p>
 		</div>
-		<h2 id="projects" class="font-bold mt-3 mb-1">who am i?</h2>
+		<h2 id="projects" class="font-bold mt-3 mb-1">Bio</h2>
 		<hr class="header" />
 		<div>
-			<p>anime pfp and pseudonymous identity</p>
+			<p>AI researcher and dev</p>
 			<p>
-				A programmer based in Toronto. The singularity is already here, but I
-				might have a chance at being useful if I focus on AI.
+				Based in NYC, working on synthetic data and task automation in accounting.
 			</p>
 			<p>
-				DM <a href="https://x.com/hitorilabs" class="link">@hitorilabs</a> on x dot
+				DM <a href="https://x.com/joshpurtell" class="link">@joshpurtell</a> on x dot
 				com the everything app
 			</p>
 		</div>
@@ -73,15 +72,27 @@ const blogEntries = await getCollection("blog");
 		<hr class="header" />
 		<ul class="list-disc list-inside">
 			<li>
-				homelab build - <a
-					href="https://github.com/hitorilabs/navi"
-					class="link">hitorilabs/navi</a
+				2D Minecraft for LMs- <a
+					href="https://github.com/JoshuaPurtell/craftaxlm"
+					class="link">prolegomena/craftaxlm</a
 				>
 			</li>
 			<li>
-				tour of deep learning basics - <a
-					href="https://github.com/hitorilabs/papers"
-					class="link">hitorilabs/papers</a
+				Long Range Context Bench - <a
+					href="https://github.com/JoshuaPurtell/LRCBench"
+					class="link">prolegomena/lrcbench</a
+				>
+			</li>
+			<li>
+				Simple Agent Task Suite - <a
+					href="https://github.com/JoshuaPurtell/Smallbench"
+					class="link">prolegomena/smallbench</a
+				>
+			</li>
+			<li>
+				Fast Compound AI Systems - <a
+					href="https://github.com/JoshuaPurtell/Apropos"
+					class="link">prolegomena/apropos</a
 				>
 			</li>
 		</ul>
@@ -92,6 +103,7 @@ const blogEntries = await getCollection("blog");
 			<ul>
 				{
 					blogEntries
+						.filter(entry => !entry.data.tags.includes("Personal"))
 						.sort(
 							(a, b) =>
 								b.data.publishDate.getTime() - a.data.publishDate.getTime(),
