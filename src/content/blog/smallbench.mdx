@@ -17,7 +17,7 @@ LM agent development and research is hard.
 LM agents are hard to develop and do science on. We don't even have consensus on what they *are*, but the most painful problems are evident even when we fall back to a conservative definition like "a compound LM system with non-DAG stateful control flow":
 1. How do we write abstractions around orchestration that make *learning* to orchestrate easier? Think DSPy for agent design. Most OS agents are written with no orchestration abstractions! This unfortunately often renders them as frozen point-in-time artifacts, not as manifestations of system configurations subject to iteration and improvement.
 2. How do we manage statefulness in a simple and predictable way, to enable valid comparisons between LM systems? Fortunately, I believe [SWE-Agent's](https://arxiv.org/abs/2405.15793) notion of Agent-Computer Interface (ACI) lays the groundwork, but there remain plenty of questions.
-3. How can we feasibly evaluate important agent capabilities in the context of meaningful tasks? Between [Web Arena](https://webarena.dev), [SWE-Bench](https://www.swebench.com/lite.html), and now the [SWE-Bench family](https://arxiv.org/pdf/2407.13168) of benchmarks, we're not hurting for valid evals. However, not all of these benchmarks are designed with ergonomics - async, massively parallelizable executions - or cost/speed in mind. Benchmarks that are perfectly calibrated for expensive, SOTA frontier models are great - for comparing expensive, SOTA frontier models, and telling us what startups can put in production tomorrow. But if cheap open models don't make meaningful headway, they're not feasible for methods development. SWE-Bench costs $1+ per question to run, which means a bare-minimum experiment (n=100) is cost prohibitive.
+3. How can we feasibly evaluate important agent capabilities in the context of meaningful tasks? Between [Web Arena](https://webarena.dev), [SWE-Bench](https://www.swebench.com/lite.html), and now the [SWE-Bench family](https://arxiv.org/pdf/2407.13168) [of](https://github.com/bethgelab/CiteME) [benchmarks](https://assistantbench.github.io), we're not hurting for valid evals. However, not all of these benchmarks are designed with ergonomics - async, massively parallelizable executions - or cost/speed in mind. Benchmarks that are perfectly calibrated for expensive, SOTA frontier models are great - for comparing expensive, SOTA frontier models, and telling us what startups can put in production tomorrow. But if cheap open models don't make meaningful headway, they're not feasible for methods development. SWE-Bench costs $1+ per question to run, which means a bare-minimum experiment (n=100) is cost prohibitive.
 
 ## SmallBench Can Help
 
@@ -42,12 +42,14 @@ SmallBench will release multiple benchmarks targeting various agent capabilities
  2. Ability to effectively split up a task into subtasks
  3. Ability to reason through testing and evaluating its intermediate outputs
 
-The cleanest environments for evaluating agents are math, code, and web, in that order. People care about code a lot, and it's the topic foundation model devs are pouring the majority of their data and compute into.
+The cleanest environments for evaluating agents are math, code, and web, in that order. People care about code a lot, and it's the topic foundation model devs are pouring the majority of their data and compute into. Moreover, code is emerging as a [promising](https://voyager.minedojo.org) [modality](https://arxiv.org/abs/2211.12588) for LM action grounding. So, we think coding environments will be the all-around best initial testbed for agent evaluation.
 Search is important, but is also complicated, so it's excluded from this particular benchmark - although, naturally, it will appear in another SmallBench benchmark soon!
 
 We were exceptionally fortunate for there to be a large dataset of tightly scoped SWE tasks with ground-truth unit test suites ready to use out-of-the-box: the [BigCodeBench](https://bigcode-bench.github.io) (BCB) dataset.
 
-TODO: BCB Team Paragraph about BCB
+BigCodeBench is a dataset of hundreds of atomic coding tasks centered around a wide variety of topics, such as cryptography, data analysis, web development, and so on.
+Each task is paired with both a high-level instruction and a more thorough commented specification - so developers can compare agent performance conditional on the two input types to infer how well their system can work and reason with human intent.
+Finally, each task is assigned a gold-standard hidden unit test suite, so developers can confidently evaluate the quality of their agent's outputs.
 
 The BigCodeBench-Agent benchmark currently supports Dockerization for code evaluation, and shortly will support Modal [sandboxes](https://modal.com/docs/guide/sandbox) for easy scaling. 
 Running 100 instances of a gpt-4o-mini ReAct baseline (45% success) on BCB-Agent currently costs under \$0.50. With cheaper models, or prompt caching, diligent devs can likely get it down to under \$0.05. 
