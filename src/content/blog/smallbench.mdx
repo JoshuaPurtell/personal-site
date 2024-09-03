@@ -1,11 +1,35 @@
 ---
-title: Sharing the SmallBench Agent Suite and DevSet
-seo_title: "SmallBench Agent Suite and DevSet"
+title: Sharing the SmallBench Agent Suite
+seo_title: "SmallBench Agent Suite"
 description: |
     ... to fuel the next few OOMs in software agent research.
 author: "Josh"
 featuredImage: ../../assets/featured-images/inspiration.png
 tags: ["Research", "Agents"]
-publishDate: "2024-08-29"
+publishDate: "2024-08-28"
 draft: false
 ---
+
+LM Agents are hard to develop and do science on. 
+
+
+SWE-Bench wasa a leap forward 
+
+Basic ideas:
+- ACI harness
+    Check validation errors, etc
+    Statefulness (Unit tests, drafts)
+    Dockerization
+- Small models, simple environments, modular task set up
+    - Should be rather easy to add new tasks. Just add a code prompt and unit tests.
+    - Add a new dataset from small repos + AST?
+- Cheap Experiments wit architectures, training approaches, etc
+    - local agent dev, etc
+    - Not emphasizing validity for assessing usefulness for real-world applications (SWE-Bench etc)
+- Scale the complexity hierarchy
+    - Why BCB? Because they focus on clean, straightforward SWE tasks, completing one function
+    - Next, maybe add tasks for localization, generating classes and methods / helper functions, etc
+
+<div style="display: flex; justify-content: center;">
+  <img src="https://raw.githubusercontent.com/JoshuaPurtell/SmallBench/main/assets/data_science_small.gif" alt="AI Completing Data Science Task" width="300" />
+</div>

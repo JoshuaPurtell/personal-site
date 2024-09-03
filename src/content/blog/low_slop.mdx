@@ -1,0 +1,50 @@
+---
+title: Right Speech
+seo_title: "Opinionated living"
+description: |
+    ... Right Action
+author: "prolegomena"
+featuredImage: ../../assets/featured-images/inspiration.png
+tags: ["Personal"]
+publishDate: "2024-08-30"
+draft: false
+---
+
+## Tokenization in Silico
+Tokenization is not a very exciting problem, for most. But, it's a quite important topic, and some hypotheses I've heard practitioners suggest are rather suggestive.
+One of my favorites is the 'entropy smoothing' hypothesis - good tokenizers help smooth out text into constant-complexity units, to distribute compute efficiently.
+
+The familiar motivation for tokenization is that learning to predict letters taxes the attention layer overmuch - you're wasting precious quadratic-complexity input size on redundant patterns - while predicting sentence-level utterances may suffer from dataset coverage that rapidly decays with median utterance length.
+This suggests a simple heuristic - chunk text into components just frequent/complex enough to be predicted by the (dataset, architecture) pair, but no more frequent nor less complex.
+As mode architecture and training efficiency grows, so too does token size; you can see as much comparing early Llama tokenizers to recent tokenizers used by OpenAI.
+
+In particular, once data mixes started to heavily focus on code - the first killer app for language models - the median token length for coding snippets plummeted. Code simply became much easier to predict; you can think of this in terms of simple distribution coverage (more data means a better lookup table) or in terms of mechanisms (more training compute means higher likelihood of finding simple algorithms in the transformer attention heads).
+Either way, lower token counts means better long-range dependency modeling - it's *much* easier to predict 25 relationships than 100 - suggesting the following hypothesis: with smart tokenization, *long-horizon prediction should get better faster* on a relative basis than does short-horizon prediction.
+
+## Tokenization in Man
+
+For transformers, I could test this hypothesis in a weekend with the right setup. Maybe I will! It's a bit harder to test in humans, but my conviction is there.
+
+Right tail tokenization looks like koans: simple formulae that mean *precisely nothing* up until the point that one's tokenizer reaches a given entropy-per-token ratio, at which point the high-entropy underlying idea becomes apparent. If you have a four word Koan, a twenty entropy-unit message, and a reader whose tokenizer chunks at 3 entropy units / token, then it will mean nothing. With 6 units/tok, it's trite. Hence why some wise men throughout history have found them somewhat useful for guaging student progress.
+
+But tokenization matters beyond the walls of 1600s Zen monasteries. Most technical people are familiar with jargon, notational shorthand, and habits, which need no elaboration. I also believe tokenization explains why sometimes scrupulous hygiene with respect to thought and action so frequently produces good judgement and operational excellence.
+
+## Right Thought
+
+Limiting oneself to a narrow, opinionated way of approaching problems is painful in the moment, necessarily so. But because of data scaling laws, living in a small corner of the total distribution means one's median entropy/tok *on that subset* increases much earlier than in the counterfactual with no constraints. As next-token predictors with finite compute, we see as many first-order gains from training on concentrated datasets (our own opinionated code) as LMs do on theirs.
+But we also see massive second-order gains: developing expertise - the ability to rapidly intuit downstream consequences of various choices in a given domain - feels a lot like learning long-horizon dependencies, and at least in my observations, seems to follow the formation of strong opinions. Not vice versa.
+
+So, it's useful to focus one's energy on mastering a few techniques. That's not news, although perhaps a sharper proposition implied by the above, that engineers obsessing over building in Rust on NixOS is *very* good for shareholder returns, is.
+
+If we return to the Zen monasteries, though, we find a much sharper formulation still: if the actions, thoughts, and words we produce now are the target distribution for our next-token predictor, and specialization has first- and second-order returns, it might make sense to become NixCels of the spirit.
+This is ultimately why philosophy and religion work. Opinionation is painful - a given person's inclinations might not perfectly fit each of the prescriptions - but over time, gains from skillfulness and wisdom swamp all local losses.
+
+## Right Action
+
+The key to speed through the awkward phase is to go all in. Download UV, delete Poetry, etc etc. Every data point you generate today makes generating another tomorrow easier, and so on. Each righteous act redeems the sinner.
+Your first day of opinionated speech, you'll say very little and qualify a lot. The second day, you'll say very little and qualify a lot.
+
+But eventually, you say a bit more and qualify a bit less. You begin to confidently assert the obvious consequences of a few deeply held convictions, not long after can reason about how they interplay.
+With one deeply held belief, you strike others as an amateur with a monocausal perspective. With forty, you begin to make extremely valuable judgements about the medium term. 
+
+With one thousand, you have a rare treasure - genius. Train your next-token predictor on only the finest.
