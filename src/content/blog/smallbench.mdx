@@ -10,28 +10,48 @@ publishDate: "2024-08-28"
 draft: false
 ---
 
-IN PROGRESS
+## LM Agent Research Has Problems
 
-LM Agents are hard to develop and do science on. 
+LM agent development and research is hard. 
 
+LM Agents are hard to develop and do science on. We don't even have consensus on what they *are*, but the most painful problems are evident even when we fall back to a conservative definition like "a compound LM system with non-DAG stateful control flow":
+1. How do we write abstractions around orchestration that make *learning* to orchestrate easier? Think DSPy for agent design. Most OS agents are written with no orchestration abstractions! This unfortunately often renders them as frozen point-in-time artifacts, not as manifestations of system configurations subject to iteration and improvement.
+2. How do we manage statefulness in a simple and predictable way, to enable valid comparisons between LM systems? Fortunately, I believe [SWE-Agent's](https://arxiv.org/abs/2405.15793) notion of ACI lays the groundwork, but there remain plenty of questions.
+3. How can we feasibly evaluate important agent capabilities in the context of meaningful tasks? Between [Web Arena](https://webarena.dev), [SWE-Bench](https://www.swebench.com/lite.html), and now the [SWE-Bench family](https://arxiv.org/pdf/2407.13168) of benchmarks, we're not hurting for valid evals. However, not all of these benchmarks are designed with ergonomics - async, massively parallelizable executions - or cost/speed in mind. Benchmarks that are perfectly calibrated for expensive, SOTA frontier models are great - for comparing expensive, SOTA frontier models, and telling us what startups can put in production tomorrow. But if cheap open models don't make meaningful headway, they're not feasible for methods development. SWE-Bench costs $1+ per question to run, which means a bare-minimum experiment (n=100) is cost prohibitive.
 
-SWE-Bench wasa a leap forward 
+## SmallBench Can Help
 
-Basic ideas:
-- ACI harness
-    Check validation errors, etc
-    Statefulness (Unit tests, drafts)
-    Dockerization
-- Small models, simple environments, modular task set up
-    - Should be rather easy to add new tasks. Just add a code prompt and unit tests.
-    - Add a new dataset from small repos + AST?
-- Cheap Experiments wit architectures, training approaches, etc
-    - local agent dev, etc
-    - Not emphasizing validity for assessing usefulness for real-world applications (SWE-Bench etc)
-- Scale the complexity hierarchy
-    - Why BCB? Because they focus on clean, straightforward SWE tasks, completing one function
-    - Next, maybe add tasks for localization, generating classes and methods / helper functions, etc
+Problem 1 has seen quite a bit of attention, and specifically was the target of much early work in the agents topic. I've done some early [work](https://github.com/JoshuaPurtell/Apropos) to enable my own research, but it feels a tad early to be locking down software abstractions. 
+
+Problems 2 and 3 are interesting to me. 
+- While plenty of startups I've spoken to are independently implementing ACI-esque abstractions for managing statefulness, beyond SWE-Agent, there is not much *public* work. 
+- Ergonomic agent development setups are important - I don't want my experiments to be limited by the parallelization factor my laptop's Docker app supports - but cheap experiments are critical. Agent development ought to be an attractive topic for the gpu-poor, but at $1/run, SWE-Bench is about 3 OOMs too expensive. While normal hardware advancements will help bring cost down slowly, I don't think waiting a year is worth it when there are options to run cheaper experiments today.
+
+These problems are the inspiration for SmallBench, a suite of lm agent benchmarks designed to evaluate agent system capabilities using simple environments. SmallBench isn't designed to tell you which frontier model is best for agentic use cases, nor to accurately assess progress against specific real-world use cases.
+Instead, SmallBench is designed to evaluate LM architecture choices (can we improve on a ReAct for-loop baseline?), methods for enabling agent learning via train-time scaling (how does MCTSr stack up against STAR, DPO against GRPO?), and different methods for test-time agent scaling (can MCTS actually work?).
+Each environment will release with substantial dataset size and will be designed for cheap and simple synthetic dataset scaling. We want scaling data and compute to be cheap and simple, so researchers can focus on making progress.
+
+## Benchmark One: BCB-Agent
 
 <div style="display: flex; justify-content: center;">
   <img src="https://raw.githubusercontent.com/JoshuaPurtell/SmallBench/main/assets/data_science_small.gif" alt="AI Completing Data Science Task" width="300" />
 </div>
+
+SmallBench will release multiple benchmarks targetting various agent capabilities. The first benchmark is intended to evaluate
+- 1. Ability to properly call simple ACI functions
+- 2. Ability to effectively split up a task into subtasks
+- 3. Ability to reason through testing and evaluating its intermediate outputs
+
+The cleanest environments for evaluating agents are math, code, and web, in that order. People care about code a lot, and it's the topic foundation model devs are pouring the majority of their data and compute into.
+Search is important, but is also complicated, so it's excluded from this particular benchmark - although, naturally, it will appear in another SmallBench benchmark soon!
+
+We were exceptionally fortunate for there to be a large dataset of tightly scoped SWE tasks with ground-truth unit test suites ready to use out-of-the-box: the [BigCodeBench](https://bigcode-bench.github.io) (BCB) dataset.
+
+<BCB Team Paragraph about BCB>
+
+The BigCodeBench-Agent benchmark currently supports Dockerization for code evaluation, and shortly will support Modal [sandboxes](https://modal.com/docs/guide/sandbox) for easy scaling. 
+Running 100 instances of a gpt-4o-mini ReAct baseline (45% success) on the BCB-Agent currently costs under $0.50. With cheaper models, or prompt caching, diligent devs can likely get it down to under $0.05. 
+
+Happy agent development!
+
+
