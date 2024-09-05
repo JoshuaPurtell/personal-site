@@ -52,7 +52,7 @@ Each task is paired with both a high-level instruction and a more thorough comme
 Finally, as previously mentioned, each task is assigned a gold-standard hidden unit test suite, so developers can confidently evaluate the quality of their agent's outputs.
 
 The BigCodeBench-Agent benchmark currently supports Dockerization for code evaluation, and shortly will support Modal [sandboxes](https://modal.com/docs/guide/sandbox) for easy scaling. 
-Running 100 instances of a gpt-4o-mini [ReAct baseline](https://github.com/JoshuaPurtell/SmallBench/blob/main/src/smallbench/benchmarks/bcb_a/test.py) (45% success) on BCB-Agent currently costs under \$0.50. With cheaper models, or prompt caching, diligent devs can likely get it down to under \$0.05. 
+Running 100 instances of a gpt-4o-mini [ReAct baseline](https://github.com/JoshuaPurtell/SmallBench/blob/main/src/smallbench/benchmarks/bcb_a/test.py) (~20% success rate) on BCB-Agent currently costs under \$0.50. With cheaper models, or prompt caching, diligent devs can likely get it down to under \$0.05. 
 
 Happy agent development!
 
